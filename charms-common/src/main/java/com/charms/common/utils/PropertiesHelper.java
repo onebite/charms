@@ -14,6 +14,10 @@ public class PropertiesHelper {
     private final static String defaultCharsetName = "UTF-8";
 
 
+    public PropertiesHelper(String fileName) {
+        loadFromResources(fileName);
+    }
+
     public boolean loadFromResources(String fileName){
         try{
             InputStream resourceAsStream = PropertiesHelper.class.getClassLoader().getResourceAsStream(fileName);

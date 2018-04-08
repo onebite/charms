@@ -2,9 +2,16 @@ package com.charms.common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.SortingParams;
+import redis.clients.util.SafeEncoder;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class RedisUtil {
@@ -42,7 +49,7 @@ public class RedisUtil {
      */
     private void initJedisPool() {
 
-        properties = PropertiesHelper("config.properties");
+        properties = new PropertiesHelper("config.properties").getAllProperty();
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxIdle(Integer.valueOf(properties.getProperty("redis.pool.maxIdle")));
         config.setTestOnBorrow(Boolean.getBoolean(properties.getProperty("redis.pool.testOnBorrow")));
@@ -139,7 +146,7 @@ public class RedisUtil {
          * @param key
          */
         public long expire(String key) {
-            return expire(key, EXPIRE);
+            return expire(key, RedisUtil.DEFAULT_EXPIRE);
         }
 
         /**
@@ -1465,3 +1472,4 @@ public class RedisUtil {
             return ltrim(SafeEncoder.encode(key), start, end);
         }
     }
+}

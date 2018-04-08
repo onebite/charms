@@ -15,7 +15,6 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../charms-parent</relativePath>
     </parent>
-    <groupId>com.charms</groupId>
     <artifactId>charms-user</artifactId>
     <version>1.0-SNAPSHOT</version>
 

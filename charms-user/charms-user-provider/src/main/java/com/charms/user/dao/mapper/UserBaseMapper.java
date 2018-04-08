@@ -13,4 +13,18 @@ public interface UserBaseMapper {
     List<UserBase> selectAll();
 
     int updateByPrimaryKey(UserBase record);
+
+    /**
+     * 邮箱唯一
+     * @param email
+     * @return
+     */
+    UserBase selectByEmail(String email);
+
+    /**
+     * 电话唯一
+     * @param mobile
+     * @return
+     */
+    UserBase selectByMobile(String mobile);
 }

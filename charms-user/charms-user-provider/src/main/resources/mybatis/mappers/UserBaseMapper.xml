@@ -27,6 +27,8 @@
     <result column="remove_status" property="removeStatus" jdbcType="TINYINT" />
     <result column="push_token" property="pushToken" jdbcType="VARCHAR" />
   </resultMap>
+  <select id="selectByEmail"
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     <!--
       WARNING - @mbggenerated
