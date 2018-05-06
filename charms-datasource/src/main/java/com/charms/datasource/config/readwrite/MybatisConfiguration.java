@@ -1,10 +1,12 @@
 package com.charms.datasource.config.readwrite;
 
+import com.charms.common.handler.AutoEnumTypeHandler;
 import com.charms.common.utils.SpringContextUtils;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -48,7 +50,10 @@ public class MybatisConfiguration {
         pageHelper.setProperties(properties);
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{pageHelper});
 
-        return sqlSessionFactoryBean.getObject();
+        SqlSessionFactory factory = sqlSessionFactoryBean.getObject();
+        TypeHandlerRegistry handlerRegistry = factory.getConfiguration().getTypeHandlerRegistry();
+        handlerRegistry.setDefaultEnumTypeHandler(AutoEnumTypeHandler.class);
+        return factory;
     }
 
 
@@ -64,7 +69,7 @@ public class MybatisConfiguration {
     public AbstractRoutingDataSource roundRobinDataSourceProxy(){
         MyAbstractRoutingDataSource proxy = new MyAbstractRoutingDataSource();
         Map<Object,Object> targetDataSources = new HashMap<>();
-        DataSource writeDataSource = (DataSource) SpringContextUtils.getBean("readDataSources");
+        DataSource writeDataSource = (DataSource) SpringContextUtils.getBean("writeDataSource");
         targetDataSources.put("write",writeDataSource);
         Map<String,DataSource> readsMap = (Map<String, DataSource>) SpringContextUtils.getBean("readDataSources");
         for(Map.Entry<String,DataSource> entry:readsMap.entrySet()){

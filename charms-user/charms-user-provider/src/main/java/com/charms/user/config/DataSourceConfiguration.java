@@ -33,6 +33,7 @@ import java.util.Map;
 
 @Configuration("DataSourceConfiguration")
 @AutoConfigureOrder(1)
+@ConfigurationProperties(prefix = "spring")
 public class DataSourceConfiguration {
     private static final Logger log = LoggerFactory.getLogger(DataSourceConfiguration.class);
     @Value("datasource.type")

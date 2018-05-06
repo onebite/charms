@@ -105,10 +105,10 @@ public class DataSourceConfiguration {
             Map<String, Object> values = new HashMap<>(rpr);
             // 排除已经设置的属性
             values.remove("type");
-            values.remove("driverClassName");
-            values.remove("url");
-            values.remove("username");
-            values.remove("password");
+            values.remove(DataSourceConfig.DRIVER_CLASS_NAME);
+            values.remove(DataSourceConfig.JDBC_URL);
+            values.remove(DataSourceConfig.USERNAME);
+            values.remove(DataSourceConfig.PASSWORD);
             dataSourcePropertyValues = new MutablePropertyValues(values);
         }
 

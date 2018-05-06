@@ -1,9 +1,11 @@
 package com.charms.datasource.config.single;
 
+import com.charms.common.handler.AutoEnumTypeHandler;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -40,7 +42,10 @@ public class MybatisConfiguration {
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:/mybatis/*.xml"));
-        return sqlSessionFactoryBean.getObject();
+        SqlSessionFactory factory = sqlSessionFactoryBean.getObject();
+        TypeHandlerRegistry handlerRegistry = factory.getConfiguration().getTypeHandlerRegistry();
+        handlerRegistry.setDefaultEnumTypeHandler(AutoEnumTypeHandler.class);
+        return factory;
     }
 
     /**
